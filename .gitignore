@@ -1,0 +1,12 @@
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# django
+*.sqlite3
+*.pyc
+*.log
+
+# directory
+/.vscode
