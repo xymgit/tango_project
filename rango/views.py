@@ -13,6 +13,7 @@ from rango.forms import UserForm, UserProfileForm
 
 # Create your views here.
 
+
 def get_server_side_cookie(request, cookie, default_vla=None):
     val = request.session.get(cookie)
     if not val:
@@ -29,8 +30,10 @@ def visitor_cookie_handler(request):
     visits = int(get_server_side_cookie(request, 'visits', '1'))
 
     # last_visit_cookie = request.COOKIES.get('last_visit', str(datetime.now()))
-    last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(datetime.now()))
-    last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
+    last_visit_cookie = get_server_side_cookie(
+        request, 'last_visit', str(datetime.now()))
+    last_visit_time = datetime.strptime(
+        last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
 
     # if it's been more than a day since the last visit...
     # if (datetime.now() - last_visit_time).days > 0:
@@ -72,7 +75,7 @@ def index(request):
     context_dict['visits'] = request.session['visits']
 
     response = render(request, 'rango/index.html', context_dict)
-    
+
     # Return response back to the user, updating any cookies that need changed.
     return response
 
@@ -158,11 +161,12 @@ def add_page(request, category_name_slug):
                 return show_category(request, category_name_slug)
         else:
             print(form.errors)
-    
-    context_dict = {'form':form, 'category':category}
+
+    context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context_dict)
 
 
+""" 
 def register(request):
     # A boolean value for telling the template
     # whether the registration was successful.
@@ -218,10 +222,10 @@ def register(request):
 
     # Render the template depending on the context.
     return render(request,
-                'rango/register.html',
-                {'user_form': user_form,
-                'profile_form': profile_form,
-                'registered': registered})
+                  'rango/register.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered})
 
 
 def user_login(request):
@@ -230,7 +234,7 @@ def user_login(request):
         # Gather the username and password provided by the user.
         # This information is obtained form the login form.
         # We use request.POST.get('<variable>')as opposed
-        # to request.POST['<variable>'], because the 
+        # to request.POST['<variable>'], because the
         # request.POST.get('<variable>') returns None if the
         # value does not exist, while request.POST['<variable>']
         # will raise a KeyError exception.
@@ -267,12 +271,6 @@ def user_login(request):
         return render(request, 'rango/login.html', {})
 
 
-@login_required
-def restricted(request):
-    # return HttpResponse("Since you're logged in, you can see this text!")
-    return render(request, 'rango/restricted.html', {})
-
-
 # Use the login_required() decorator to ensure only those logged in can access this view.
 @login_required
 def user_logout(request):
@@ -280,3 +278,10 @@ def user_logout(request):
     logout(request)
     # Take the user back to the homepage.
     return HttpResponseRedirect(reverse('index'))
+ """
+
+
+@login_required
+def restricted(request):
+    # return HttpResponse("Since you're logged in, you can see this text!")
+    return render(request, 'rango/restricted.html', {})
